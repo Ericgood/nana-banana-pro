@@ -1,6 +1,7 @@
+account_id = "7603590f7848113756dcf96badd1dc96"
 name = "nana-banana-pro"
 main = "./dist/_worker.js"
-compatibility_date = "2024-09-19"
+compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 [assets]
