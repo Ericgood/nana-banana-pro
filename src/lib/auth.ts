@@ -8,6 +8,8 @@ let _auth: ReturnType<typeof betterAuth> | null = null;
 export function getAuth() {
   if (!_auth) {
     _auth = betterAuth({
+      baseURL: import.meta.env.BETTER_AUTH_URL || 'http://localhost:4321',
+      secret: import.meta.env.BETTER_AUTH_SECRET,
       database: drizzleAdapter(db, {
         provider: 'sqlite',
         schema,

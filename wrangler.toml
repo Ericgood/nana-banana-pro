@@ -8,4 +8,10 @@ directory = "./dist"
 binding = "ASSETS"
 
 [vars]
-# GOOGLE_AI_STUDIO_API_KEY should be set via `wrangler secret put GOOGLE_AI_STUDIO_API_KEY`
+# Secrets should be set via `wrangler secret put <NAME>`:
+#   wrangler secret put GOOGLE_AI_STUDIO_API_KEY
+#   wrangler secret put BETTER_AUTH_SECRET
+#   wrangler secret put DATABASE_URL
+#   wrangler secret put DATABASE_AUTH_TOKEN
+#   wrangler secret put STRIPE_SECRET_KEY
+#   wrangler secret put STRIPE_WEBHOOK_SECRET
