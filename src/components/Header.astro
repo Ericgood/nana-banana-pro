@@ -1,0 +1,159 @@
+---
+const currentPath = Astro.url.pathname;
+const user = Astro.locals.user;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-lg border-b border-white/5">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 text-xl font-display font-bold text-white hover:text-banana-400 transition-colors">
+      <span class="text-2xl">🍌</span>
+      <span>NANA Banana Pro</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="hidden md:flex items-center gap-8">
+      <a
+        href="/"
+        class:list={[
+          "text-sm font-medium transition-colors",
+          currentPath === "/" ? "text-banana-400" : "text-gray-300 hover:text-white"
+        ]}
+      >
+        Home
+      </a>
+      <a
+        href="/generate"
+        class:list={[
+          "text-sm font-medium transition-colors",
+          currentPath === "/generate" ? "text-banana-400" : "text-gray-300 hover:text-white"
+        ]}
+      >
+        Generate
+      </a>
+      <a
+        href="/#how-it-works"
+        class="text-sm font-medium text-gray-300 hover:text-white transition-colors"
+      >
+        How It Works
+      </a>
+      <a
+        href="/pricing"
+        class:list={[
+          "text-sm font-medium transition-colors",
+          currentPath === "/pricing" ? "text-banana-400" : "text-gray-300 hover:text-white"
+        ]}
+      >
+        Pricing
+      </a>
+
+      {user ? (
+        <div class="flex items-center gap-4 ml-2">
+          <a href="/pricing" id="credit-display" class="flex items-center gap-1.5 px-3 py-1.5 bg-banana-500/10 border border-banana-500/20 rounded-full text-banana-400 text-sm font-medium hover:bg-banana-500/20 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            <span id="credit-count">--</span>
+          </a>
+          <span class="text-sm text-gray-300">{user.name || user.email}</span>
+          <button
+            id="logout-btn"
+            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white border border-white/10 rounded-full transition-colors hover:border-white/30"
+          >
+            Sign Out
+          </button>
+        </div>
+      ) : (
+        <div class="flex items-center gap-3 ml-2">
+          <a
+            href="/login"
+            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white border border-white/10 rounded-full transition-colors hover:border-white/30"
+          >
+            Sign In
+          </a>
+          <a
+            href="/signup"
+            class="px-5 py-2 bg-banana-500 hover:bg-banana-400 text-brand-dark font-semibold text-sm rounded-full transition-all hover:shadow-lg hover:shadow-banana-500/25"
+          >
+            Sign Up
+          </a>
+        </div>
+      )}
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
+      aria-label="Toggle menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-brand-dark/95 backdrop-blur-lg border-b border-white/5">
+    <div class="px-4 py-4 space-y-3">
+      <a href="/" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Home</a>
+      <a href="/generate" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Generate</a>
+      <a href="/#how-it-works" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">How It Works</a>
+      <a href="/pricing" class="block text-sm font-medium text-gray-300 hover:text-white transition-colors py-2">Pricing</a>
+      {user ? (
+        <>
+          <div class="flex items-center justify-between py-2">
+            <span class="text-sm text-gray-400">{user.name || user.email}</span>
+            <a href="/pricing" id="mobile-credit-display" class="flex items-center gap-1.5 px-3 py-1 bg-banana-500/10 border border-banana-500/20 rounded-full text-banana-400 text-xs font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <span id="mobile-credit-count">--</span>
+            </a>
+          </div>
+          <button
+            id="mobile-logout-btn"
+            class="block w-full text-center px-5 py-2.5 border border-white/10 text-gray-300 font-medium text-sm rounded-full transition-all mt-2 hover:border-white/30"
+          >
+            Sign Out
+          </button>
+        </>
+      ) : (
+        <>
+          <a href="/login" class="block w-full text-center px-5 py-2.5 border border-white/10 text-gray-300 font-medium text-sm rounded-full transition-all mt-2 hover:border-white/30">Sign In</a>
+          <a href="/signup" class="block w-full text-center px-5 py-2.5 bg-banana-500 hover:bg-banana-400 text-brand-dark font-semibold text-sm rounded-full transition-all mt-2">Sign Up</a>
+        </>
+      )}
+    </div>
+  </div>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-16"></div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+
+  async function handleLogout() {
+    await fetch('/api/auth/sign-out', { method: 'POST' });
+    window.location.href = '/';
+  }
+
+  document.getElementById('logout-btn')?.addEventListener('click', handleLogout);
+  document.getElementById('mobile-logout-btn')?.addEventListener('click', handleLogout);
+
+  // Fetch and display credit balance
+  const creditCount = document.getElementById('credit-count');
+  const mobileCreditCount = document.getElementById('mobile-credit-count');
+
+  if (creditCount || mobileCreditCount) {
+    fetch('/api/credits/balance')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data && typeof data.credits === 'number') {
+          if (creditCount) creditCount.textContent = String(data.credits);
+          if (mobileCreditCount) mobileCreditCount.textContent = String(data.credits);
+        }
+      })
+      .catch(() => {});
+  }
+</script>

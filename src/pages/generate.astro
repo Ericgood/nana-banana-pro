@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import ImageGenerator from '../components/ImageGenerator.astro';
+import Footer from '../components/Footer.astro';
+
+export const prerender = false;
+---
+
+<Layout
+  title="Generate Images - NANA Banana Pro AI Image Generator"
+  description="Generate stunning AI images from text prompts. Upload reference images, choose artistic styles, and download high-quality results instantly."
+>
+  <Header />
+  <main>
+    <ImageGenerator />
+  </main>
+  <Footer />
+</Layout>

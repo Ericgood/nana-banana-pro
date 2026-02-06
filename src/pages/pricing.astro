@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { PLANS } from '../lib/pricing';
+
+export const prerender = false;
+---
+
+<Layout
+  title="Pricing - NANA Banana Pro AI Image Generator"
+  description="Choose the perfect plan for your AI image generation needs. Start free with 5 credits or upgrade for more."
+>
+  <Header />
+  <main class="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-display font-bold text-white mb-4">
+          Simple, Transparent Pricing
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          Start creating for free. Upgrade when you need more credits. No subscriptions, no hidden fees.
+        </p>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        {PLANS.map((plan) => (
+          <div
+            class:list={[
+              "relative rounded-2xl border p-8 flex flex-col",
+              plan.highlighted
+                ? "bg-banana-500/5 border-banana-500/30 shadow-lg shadow-banana-500/10"
+                : "bg-white/[0.02] border-white/10"
+            ]}
+          >
+            {plan.highlighted && (
+              <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+                <span class="px-4 py-1.5 bg-banana-500 text-brand-dark text-xs font-bold rounded-full uppercase tracking-wider">
+                  Best Value
+                </span>
+              </div>
+            )}
+
+            <div class="mb-6">
+              <h3 class="text-xl font-display font-bold text-white mb-1">{plan.name}</h3>
+              <p class="text-sm text-gray-400">{plan.description}</p>
+            </div>
+
+            <div class="mb-6">
+              <div class="flex items-baseline gap-1">
+                {plan.price === 0 ? (
+                  <span class="text-4xl font-display font-bold text-white">Free</span>
+                ) : (
+                  <>
+                    <span class="text-4xl font-display font-bold text-white">${plan.price}</span>
+                    <span class="text-gray-400 text-sm">one-time</span>
+                  </>
+                )}
+              </div>
+              <p class="text-banana-400 font-medium mt-2">
+                {plan.credits} credits
+              </p>
+            </div>
+
+            <ul class="space-y-3 mb-8 flex-1">
+              {plan.features.map((feature) => (
+                <li class="flex items-start gap-2 text-sm text-gray-300">
+                  <svg class="w-5 h-5 text-banana-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            {plan.price === 0 ? (
+              <a
+                href="/signup"
+                class="block w-full py-3 text-center text-sm font-semibold rounded-xl border border-white/10 text-gray-300 hover:text-white hover:border-white/30 transition-all"
+              >
+                Get Started Free
+              </a>
+            ) : (
+              <button
+                data-plan-id={plan.id}
+                class:list={[
+                  "checkout-btn w-full py-3 text-sm font-semibold rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed",
+                  plan.highlighted
+                    ? "bg-banana-500 hover:bg-banana-400 text-brand-dark hover:shadow-lg hover:shadow-banana-500/25"
+                    : "bg-white/10 hover:bg-white/15 text-white"
+                ]}
+              >
+                Buy {plan.credits} Credits
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <!-- FAQ -->
+      <div class="max-w-3xl mx-auto mt-24">
+        <h2 class="text-2xl font-display font-bold text-white text-center mb-10">
+          Frequently Asked Questions
+        </h2>
+        <div class="space-y-6">
+          <div class="bg-white/[0.02] rounded-xl border border-white/10 p-6">
+            <h3 class="font-semibold text-white mb-2">What is a credit?</h3>
+            <p class="text-gray-400 text-sm">Each credit allows you to generate one AI image. Whether you use a text prompt or a reference image, it costs 1 credit per generation.</p>
+          </div>
+          <div class="bg-white/[0.02] rounded-xl border border-white/10 p-6">
+            <h3 class="font-semibold text-white mb-2">Do credits expire?</h3>
+            <p class="text-gray-400 text-sm">No, your credits never expire. Use them at your own pace.</p>
+          </div>
+          <div class="bg-white/[0.02] rounded-xl border border-white/10 p-6">
+            <h3 class="font-semibold text-white mb-2">Is this a subscription?</h3>
+            <p class="text-gray-400 text-sm">No. All purchases are one-time payments. Buy credits when you need them, with no recurring charges.</p>
+          </div>
+          <div class="bg-white/[0.02] rounded-xl border border-white/10 p-6">
+            <h3 class="font-semibold text-white mb-2">What payment methods do you accept?</h3>
+            <p class="text-gray-400 text-sm">We accept all major credit cards, debit cards, and other payment methods supported by Stripe.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  document.querySelectorAll('.checkout-btn').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      const target = e.currentTarget as HTMLButtonElement;
+      const planId = target.dataset.planId;
+
+      target.disabled = true;
+      const originalText = target.textContent;
+      target.textContent = 'Redirecting...';
+
+      try {
+        const res = await fetch('/api/payment/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ planId }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            window.location.href = '/login';
+            return;
+          }
+          throw new Error(data.error || 'Checkout failed');
+        }
+
+        if (data.url) {
+          window.location.href = data.url;
+        }
+      } catch (err: any) {
+        alert(err.message || 'Something went wrong. Please try again.');
+        target.disabled = false;
+        target.textContent = originalText;
+      }
+    });
+  });
+</script>

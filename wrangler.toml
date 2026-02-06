@@ -1,0 +1,11 @@
+name = "nana-banana-pro"
+main = "./dist/_worker.js"
+compatibility_date = "2024-09-19"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[vars]
+# GOOGLE_AI_STUDIO_API_KEY should be set via `wrangler secret put GOOGLE_AI_STUDIO_API_KEY`

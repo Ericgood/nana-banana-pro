@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export const prerender = false;
+---
+
+<Layout
+  title="Payment Cancelled - NANA Banana Pro"
+  description="Your payment was cancelled. No charges have been made."
+>
+  <Header />
+  <main class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-16">
+    <div class="w-full max-w-md text-center">
+      <div class="bg-brand-mid rounded-2xl p-10 border border-white/10">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gray-500/10 flex items-center justify-center">
+          <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+
+        <h1 class="text-2xl font-display font-bold text-white mb-3">Payment Cancelled</h1>
+        <p class="text-gray-400 mb-8">No charges have been made. You can try again whenever you're ready.</p>
+
+        <div class="space-y-3">
+          <a
+            href="/pricing"
+            class="block w-full py-3 bg-banana-500 hover:bg-banana-400 text-brand-dark font-semibold rounded-xl transition-all hover:shadow-lg hover:shadow-banana-500/25"
+          >
+            Back to Pricing
+          </a>
+          <a
+            href="/generate"
+            class="block w-full py-3 border border-white/10 text-gray-300 hover:text-white font-medium rounded-xl transition-all hover:border-white/30"
+          >
+            Continue Generating
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

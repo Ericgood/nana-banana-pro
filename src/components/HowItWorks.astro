@@ -1,0 +1,71 @@
+---
+const steps = [
+  {
+    number: "1",
+    title: "Enter Your Prompt",
+    description: "Describe the image you want to create. Be as detailed or simple as you like -- the AI understands natural language.",
+    icon: "💬"
+  },
+  {
+    number: "2",
+    title: "Choose a Style",
+    description: "Optionally select an artistic style or upload a reference image to guide the generation process.",
+    icon: "🎯"
+  },
+  {
+    number: "3",
+    title: "Get Your Image",
+    description: "Click generate and receive your AI-created image in seconds. Download it instantly in high quality.",
+    icon: "🖼️"
+  }
+];
+---
+
+<section id="how-it-works" class="py-20 sm:py-28 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-banana-500/[0.02] to-transparent pointer-events-none"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="font-display text-3xl sm:text-4xl font-bold">
+        How It <span class="text-banana-400">Works</span>
+      </h2>
+      <p class="mt-4 text-gray-400 text-lg max-w-2xl mx-auto">
+        Three simple steps to create amazing AI-generated images.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+      {steps.map((step, index) => (
+        <div class="relative text-center">
+          {/* Connector line */}
+          {index < steps.length - 1 && (
+            <div class="hidden md:block absolute top-12 left-[60%] w-[80%] h-px bg-gradient-to-r from-banana-500/30 to-transparent"></div>
+          )}
+
+          <div class="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-banana-500/10 border border-banana-500/20 mb-6">
+            <span class="text-4xl">{step.icon}</span>
+          </div>
+
+          <div class="absolute -top-2 left-1/2 ml-10 w-7 h-7 rounded-full bg-banana-500 text-brand-dark text-sm font-bold flex items-center justify-center">
+            {step.number}
+          </div>
+
+          <h3 class="font-display text-xl font-semibold text-white mb-3">{step.title}</h3>
+          <p class="text-gray-400 text-sm leading-relaxed max-w-xs mx-auto">{step.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="mt-12 text-center">
+      <a
+        href="/generate"
+        class="inline-flex items-center gap-2 px-8 py-3.5 bg-banana-500 hover:bg-banana-400 text-brand-dark font-bold rounded-full transition-all hover:shadow-xl hover:shadow-banana-500/25 hover:-translate-y-0.5"
+      >
+        Try It Now
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

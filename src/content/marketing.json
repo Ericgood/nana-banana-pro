@@ -1,0 +1,125 @@
+{
+  "site": {
+    "name": "NANA Banana Pro",
+    "tagline": "Turn Words Into Stunning AI Art — Instantly and Free",
+    "metaTitle": "NANA Banana Pro - Free AI Image Generator from Text",
+    "metaDescription": "Create stunning AI-generated images from text prompts with NANA Banana Pro. Free, fast, and easy to use. Transform your ideas into beautiful art in seconds."
+  },
+  "hero": {
+    "title": "Create Stunning AI Images with NANA Banana Pro",
+    "subtitle": "Transform your text descriptions into breathtaking images in seconds. Powered by advanced AI, completely free to use — no sign-up required.",
+    "cta": "Start Creating Free",
+    "ctaSecondary": "See Examples"
+  },
+  "features": [
+    {
+      "icon": "sparkles",
+      "title": "Text to Image in Seconds",
+      "description": "Describe what you imagine and watch AI bring it to life. From simple sketches to photorealistic scenes, generate high-quality images from any text prompt."
+    },
+    {
+      "icon": "palette",
+      "title": "Multiple Art Styles",
+      "description": "Choose from photorealistic, digital art, watercolor, anime, oil painting, and more. Each style is fine-tuned for stunning, gallery-worthy results."
+    },
+    {
+      "icon": "zap",
+      "title": "Lightning Fast Generation",
+      "description": "Get your AI-generated images in seconds, not minutes. Our optimized pipeline delivers high-resolution results faster than other AI image generators."
+    },
+    {
+      "icon": "download",
+      "title": "High-Resolution Downloads",
+      "description": "Download your creations in high resolution, ready for social media, presentations, or print. Every image is yours to keep and use however you like."
+    },
+    {
+      "icon": "lock-open",
+      "title": "100% Free, No Sign-Up",
+      "description": "Start generating AI images immediately without creating an account. No hidden fees, no watermarks, no limitations on your creativity."
+    },
+    {
+      "icon": "shield-check",
+      "title": "Private and Secure",
+      "description": "Your prompts and generated images are processed securely. We respect your privacy and never store or share your creative content without permission."
+    }
+  ],
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Generate AI images in three simple steps — no technical skills needed.",
+    "steps": [
+      {
+        "number": 1,
+        "title": "Describe Your Vision",
+        "description": "Type a detailed text prompt describing the image you want to create. The more specific you are, the better the results."
+      },
+      {
+        "number": 2,
+        "title": "Choose Your Style",
+        "description": "Select from a variety of art styles like photorealistic, digital art, watercolor, anime, or 3D render to match your creative vision."
+      },
+      {
+        "number": 3,
+        "title": "Generate and Download",
+        "description": "Hit generate and watch AI create your image in seconds. Download the high-resolution result instantly — it's ready to share or use anywhere."
+      }
+    ]
+  },
+  "faq": [
+    {
+      "question": "What is NANA Banana Pro?",
+      "answer": "NANA Banana Pro is a free AI image generator that transforms text descriptions into stunning images. Powered by advanced AI models, it lets you create professional-quality art, illustrations, and photos simply by describing what you want. No design skills or software downloads are required."
+    },
+    {
+      "question": "How do I generate AI images from text?",
+      "answer": "Simply type a description of the image you want in the text prompt box, choose an art style, and click Generate. The AI will interpret your text and create a unique image in seconds. For best results, be specific about colors, composition, mood, and subject details in your prompt."
+    },
+    {
+      "question": "Is NANA Banana Pro really free to use?",
+      "answer": "Yes, NANA Banana Pro is completely free. You can generate AI images without any sign-up, credit card, or subscription. There are no hidden fees or paywalls. We believe everyone should have access to powerful AI image generation tools."
+    },
+    {
+      "question": "What art styles are available?",
+      "answer": "NANA Banana Pro offers a wide range of art styles including Photorealistic, Digital Art, Watercolor, Oil Painting, Anime, Sketch, 3D Render, and Pop Art. Each style is optimized to produce high-quality results that capture the unique characteristics of that artistic medium."
+    },
+    {
+      "question": "Can I use the generated images commercially?",
+      "answer": "Images generated with NANA Banana Pro are yours to use for personal and commercial projects. You can use them in social media posts, blog articles, presentations, marketing materials, and more. We recommend reviewing our terms of service for the full usage policy."
+    },
+    {
+      "question": "What makes a good text prompt for AI image generation?",
+      "answer": "A good prompt is specific and descriptive. Include details about the subject, setting, lighting, colors, mood, and artistic style. For example, instead of \"a cat,\" try \"a fluffy orange tabby cat sitting on a windowsill at sunset, warm golden light, photorealistic.\" The more detail you provide, the closer the result will match your vision."
+    },
+    {
+      "question": "How long does it take to generate an image?",
+      "answer": "Most images are generated in just a few seconds. The exact time depends on the complexity of your prompt and the selected art style. NANA Banana Pro uses an optimized AI pipeline to deliver results faster than most other free AI image generators available online."
+    },
+    {
+      "question": "Do I need to create an account to use NANA Banana Pro?",
+      "answer": "No account is needed. You can start generating AI images immediately by visiting the site and entering a text prompt. We designed NANA Banana Pro to be as accessible as possible, removing all barriers between you and your creative ideas."
+    }
+  ],
+  "generate": {
+    "title": "AI Image Generator",
+    "subtitle": "Describe your vision and let AI create it for you.",
+    "promptPlaceholder": "Describe the image you want to create... e.g., A serene mountain lake at sunset with vibrant reflections",
+    "tips": [
+      "Be specific about colors, lighting, and mood for better results",
+      "Include details about the subject, setting, and composition",
+      "Try different art styles to find the perfect look for your idea"
+    ],
+    "styles": [
+      "Photorealistic",
+      "Digital Art",
+      "Watercolor",
+      "Oil Painting",
+      "Anime",
+      "Sketch",
+      "3D Render",
+      "Pop Art"
+    ]
+  },
+  "footer": {
+    "description": "NANA Banana Pro is a free AI-powered image generator that turns your text prompts into stunning visuals. Create art, illustrations, and photos with the power of AI.",
+    "copyright": "© 2025 NANA Banana Pro. All rights reserved."
+  }
+}

@@ -1,0 +1,343 @@
+---
+const styles = [
+  { value: "auto", label: "Auto (AI Decides)" },
+  { value: "photorealistic", label: "Photorealistic" },
+  { value: "anime", label: "Anime" },
+  { value: "watercolor", label: "Watercolor" },
+  { value: "oil-painting", label: "Oil Painting" },
+  { value: "digital-art", label: "Digital Art" },
+  { value: "pixel-art", label: "Pixel Art" },
+];
+---
+
+<section class="py-8 sm:py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+
+      <!-- Left Panel: Controls -->
+      <div class="space-y-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl sm:text-3xl font-bold mb-2">Generate Image</h1>
+            <p class="text-gray-400 text-sm">Describe your image or upload a reference to get started.</p>
+          </div>
+          <div id="gen-credits" class="flex items-center gap-1.5 px-3 py-1.5 bg-banana-500/10 border border-banana-500/20 rounded-full text-banana-400 text-sm font-medium shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+            <span id="gen-credit-count">--</span>
+            <span class="text-banana-400/60">credits</span>
+          </div>
+        </div>
+
+        <!-- No credits banner -->
+        <div id="no-credits-banner" class="hidden p-4 bg-banana-500/10 border border-banana-500/20 rounded-xl">
+          <p class="text-banana-400 text-sm font-medium mb-2">You're out of credits!</p>
+          <a href="/pricing" class="inline-block px-4 py-2 bg-banana-500 hover:bg-banana-400 text-brand-dark text-sm font-semibold rounded-lg transition-all">Buy More Credits</a>
+        </div>
+
+        <!-- Prompt -->
+        <div>
+          <label for="prompt" class="block text-sm font-medium text-gray-300 mb-2">Prompt</label>
+          <textarea
+            id="prompt"
+            rows="4"
+            placeholder="A serene mountain landscape at sunset with golden light reflecting on a calm lake..."
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-banana-500/50 focus:border-banana-500/50 resize-none transition-all"
+          ></textarea>
+        </div>
+
+        <!-- Image Upload -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">Reference Image (optional)</label>
+          <div
+            id="drop-zone"
+            class="relative border-2 border-dashed border-white/10 rounded-xl p-6 text-center cursor-pointer hover:border-banana-500/30 hover:bg-white/[0.02] transition-all"
+          >
+            <input type="file" id="image-input" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+            <div id="upload-placeholder">
+              <svg class="w-8 h-8 mx-auto text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="text-sm text-gray-400">Drag & drop an image or <span class="text-banana-400">browse</span></p>
+              <p class="text-xs text-gray-500 mt-1">PNG, JPG up to 10MB</p>
+            </div>
+            <div id="upload-preview" class="hidden">
+              <img id="preview-img" class="max-h-32 mx-auto rounded-lg" alt="Preview" />
+              <button id="remove-image" type="button" class="mt-2 text-xs text-red-400 hover:text-red-300 transition-colors">Remove image</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Style Selector -->
+        <div>
+          <label for="style-select" class="block text-sm font-medium text-gray-300 mb-2">Style</label>
+          <select
+            id="style-select"
+            class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-banana-500/50 focus:border-banana-500/50 transition-all appearance-none"
+            style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%239ca3af%22 stroke-width=%222%22><path d=%22M6 9l6 6 6-6%22/></svg>'); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;"
+          >
+            {styles.map((s) => (
+              <option value={s.value} class="bg-brand-dark">{s.label}</option>
+            ))}
+          </select>
+        </div>
+
+        <!-- Generate Button -->
+        <button
+          id="generate-btn"
+          class="w-full py-3.5 bg-banana-500 hover:bg-banana-400 text-brand-dark font-bold text-lg rounded-xl transition-all hover:shadow-lg hover:shadow-banana-500/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+        >
+          <span id="btn-text">Generate Image</span>
+          <span id="btn-loading" class="hidden items-center justify-center gap-2">
+            <svg class="animate-spin w-5 h-5" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+            Generating...
+          </span>
+        </button>
+
+        <!-- Error display -->
+        <div id="error-msg" class="hidden p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm"></div>
+      </div>
+
+      <!-- Right Panel: Result -->
+      <div class="flex flex-col">
+        <div
+          id="result-area"
+          class="flex-1 min-h-[400px] lg:min-h-0 rounded-2xl border border-white/10 bg-white/[0.02] flex items-center justify-center overflow-hidden"
+        >
+          <!-- Empty state -->
+          <div id="empty-state" class="text-center p-8">
+            <div class="w-20 h-20 mx-auto rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+              <svg class="w-10 h-10 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <p class="text-gray-500 text-sm">Your generated image will appear here</p>
+            <p class="text-gray-600 text-xs mt-1">Enter a prompt and click Generate</p>
+          </div>
+
+          <!-- Loading state -->
+          <div id="loading-state" class="hidden text-center p-8">
+            <div class="w-16 h-16 mx-auto mb-4 relative">
+              <div class="absolute inset-0 rounded-full border-4 border-banana-500/20"></div>
+              <div class="absolute inset-0 rounded-full border-4 border-banana-500 border-t-transparent animate-spin"></div>
+            </div>
+            <p class="text-gray-400 text-sm">Creating your masterpiece...</p>
+            <p class="text-gray-500 text-xs mt-1">This usually takes 5-15 seconds</p>
+          </div>
+
+          <!-- Result image -->
+          <img id="result-image" class="hidden w-full h-full object-contain" alt="Generated image" />
+        </div>
+
+        <!-- Download button -->
+        <div id="download-area" class="hidden mt-4">
+          <button
+            id="download-btn"
+            class="w-full py-3 bg-white/5 border border-white/10 hover:bg-white/10 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download Image
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const promptEl = document.getElementById('prompt') as HTMLTextAreaElement;
+  const imageInput = document.getElementById('image-input') as HTMLInputElement;
+  const dropZone = document.getElementById('drop-zone') as HTMLDivElement;
+  const uploadPlaceholder = document.getElementById('upload-placeholder') as HTMLDivElement;
+  const uploadPreview = document.getElementById('upload-preview') as HTMLDivElement;
+  const previewImg = document.getElementById('preview-img') as HTMLImageElement;
+  const removeImageBtn = document.getElementById('remove-image') as HTMLButtonElement;
+  const styleSelect = document.getElementById('style-select') as HTMLSelectElement;
+  const generateBtn = document.getElementById('generate-btn') as HTMLButtonElement;
+  const btnText = document.getElementById('btn-text') as HTMLSpanElement;
+  const btnLoading = document.getElementById('btn-loading') as HTMLSpanElement;
+  const errorMsg = document.getElementById('error-msg') as HTMLDivElement;
+  const emptyState = document.getElementById('empty-state') as HTMLDivElement;
+  const loadingState = document.getElementById('loading-state') as HTMLDivElement;
+  const resultImage = document.getElementById('result-image') as HTMLImageElement;
+  const downloadArea = document.getElementById('download-area') as HTMLDivElement;
+  const downloadBtn = document.getElementById('download-btn') as HTMLButtonElement;
+
+  let uploadedImageBase64: string | null = null;
+
+  // Image upload handling
+  function handleFile(file: File) {
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 10 * 1024 * 1024) {
+      showError('Image must be under 10MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      uploadedImageBase64 = e.target?.result as string;
+      previewImg.src = uploadedImageBase64;
+      uploadPlaceholder.classList.add('hidden');
+      uploadPreview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  imageInput.addEventListener('change', () => {
+    if (imageInput.files?.[0]) handleFile(imageInput.files[0]);
+  });
+
+  dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('border-banana-500/50', 'bg-banana-500/5');
+  });
+
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('border-banana-500/50', 'bg-banana-500/5');
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('border-banana-500/50', 'bg-banana-500/5');
+    if (e.dataTransfer?.files?.[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  removeImageBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    uploadedImageBase64 = null;
+    imageInput.value = '';
+    uploadPreview.classList.add('hidden');
+    uploadPlaceholder.classList.remove('hidden');
+  });
+
+  // Error display
+  function showError(msg: string) {
+    errorMsg.textContent = msg;
+    errorMsg.classList.remove('hidden');
+  }
+
+  function hideError() {
+    errorMsg.classList.add('hidden');
+  }
+
+  // State management
+  function setLoading(loading: boolean) {
+    generateBtn.disabled = loading;
+    btnText.classList.toggle('hidden', loading);
+    btnLoading.classList.toggle('hidden', !loading);
+    if (loading) btnLoading.classList.add('flex');
+    else btnLoading.classList.remove('flex');
+
+    emptyState.classList.add('hidden');
+    loadingState.classList.toggle('hidden', !loading);
+    if (loading) {
+      resultImage.classList.add('hidden');
+      downloadArea.classList.add('hidden');
+    }
+  }
+
+  function showResult(imageUrl: string) {
+    loadingState.classList.add('hidden');
+    resultImage.src = imageUrl;
+    resultImage.classList.remove('hidden');
+    downloadArea.classList.remove('hidden');
+  }
+
+  // Generate
+  generateBtn.addEventListener('click', async () => {
+    hideError();
+    const prompt = promptEl.value.trim();
+    if (!prompt) {
+      showError('Please enter a prompt describing the image you want to create.');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const body: Record<string, string> = {
+        prompt,
+        style: styleSelect.value,
+      };
+      if (uploadedImageBase64) {
+        // Strip data URL prefix, send only raw base64
+        body.image = uploadedImageBase64.replace(/^data:image\/[^;]+;base64,/, '');
+      }
+
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.code === 'NO_CREDITS') {
+          const banner = document.getElementById('no-credits-banner');
+          if (banner) banner.classList.remove('hidden');
+        }
+        if (res.status === 401) {
+          window.location.href = '/login';
+          return;
+        }
+        throw new Error(data.error || `Generation failed (${res.status})`);
+      }
+
+      const data = await res.json();
+      if (data.image) {
+        showResult(`data:image/png;base64,${data.image}`);
+        // Update credit count after successful generation
+        updateCreditCount();
+      } else {
+        throw new Error('No image returned from the server.');
+      }
+    } catch (err: any) {
+      showError(err.message || 'Something went wrong. Please try again.');
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // Download
+  downloadBtn.addEventListener('click', () => {
+    const src = resultImage.src;
+    if (!src) return;
+
+    const a = document.createElement('a');
+    a.href = src;
+    a.download = `nana-banana-pro-${Date.now()}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+
+  // Credit display
+  const genCreditCount = document.getElementById('gen-credit-count');
+  const noCreditsBanner = document.getElementById('no-credits-banner');
+
+  function updateCreditCount() {
+    fetch('/api/credits/balance')
+      .then((res) => res.ok ? res.json() : null)
+      .then((data) => {
+        if (data && typeof data.credits === 'number') {
+          if (genCreditCount) genCreditCount.textContent = String(data.credits);
+          // Also update header credit counts
+          const hc = document.getElementById('credit-count');
+          const mc = document.getElementById('mobile-credit-count');
+          if (hc) hc.textContent = String(data.credits);
+          if (mc) mc.textContent = String(data.credits);
+          // Show/hide no credits banner
+          if (data.credits <= 0 && noCreditsBanner) {
+            noCreditsBanner.classList.remove('hidden');
+          }
+        }
+      })
+      .catch(() => {});
+  }
+
+  updateCreditCount();
+</script>

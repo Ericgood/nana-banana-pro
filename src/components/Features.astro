@@ -1,0 +1,60 @@
+---
+const features = [
+  {
+    icon: "✏️",
+    title: "Text to Image",
+    description: "Describe what you want and watch AI bring your vision to life with stunning detail."
+  },
+  {
+    icon: "🖼️",
+    title: "Image to Image",
+    description: "Upload a reference image and transform it into something entirely new with AI."
+  },
+  {
+    icon: "🎨",
+    title: "Multiple Styles",
+    description: "Choose from various artistic styles including photorealistic, anime, watercolor, and more."
+  },
+  {
+    icon: "⚡",
+    title: "Fast Generation",
+    description: "Get high-quality results in seconds, not minutes. Our optimized pipeline delivers speed."
+  },
+  {
+    icon: "💎",
+    title: "High Quality",
+    description: "Generate crisp, detailed images at high resolution suitable for any creative project."
+  },
+  {
+    icon: "🆓",
+    title: "Free to Use",
+    description: "Start creating images right away with no sign-up required. Completely free and unlimited."
+  }
+];
+---
+
+<section class="py-20 sm:py-28">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="font-display text-3xl sm:text-4xl font-bold">
+        Everything You Need to
+        <span class="text-banana-400">Create</span>
+      </h2>
+      <p class="mt-4 text-gray-400 text-lg max-w-2xl mx-auto">
+        Powerful AI image generation tools at your fingertips. No experience required.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {features.map((feature) => (
+        <div class="group p-6 rounded-2xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:border-banana-500/20 transition-all duration-300">
+          <div class="w-12 h-12 rounded-xl bg-banana-500/10 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+            {feature.icon}
+          </div>
+          <h3 class="font-display text-lg font-semibold text-white mb-2">{feature.title}</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
