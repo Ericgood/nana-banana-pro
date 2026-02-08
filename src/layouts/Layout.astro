@@ -1,4 +1,6 @@
 ---
+import GoogleOneTap from '../components/GoogleOneTap.astro';
+
 interface Props {
   title: string;
   description: string;
@@ -58,5 +60,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="min-h-screen bg-brand-dark text-white font-sans antialiased">
     <slot />
+    <GoogleOneTap />
   </body>
 </html>

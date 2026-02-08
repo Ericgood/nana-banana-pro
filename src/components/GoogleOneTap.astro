@@ -1,0 +1,30 @@
+---
+// GoogleOneTap: Shows Google One-Tap sign-in popup for unauthenticated users.
+// Included in Layout.astro. Checks session client-side before prompting.
+---
+
+<script>
+  import { oneTap } from '../lib/auth-client';
+
+  async function initOneTap() {
+    try {
+      // Check if user is already logged in
+      const res = await fetch('/api/auth/get-session');
+      const session = await res.json();
+      if (session?.user) return;
+
+      await oneTap({
+        callbackURL: window.location.pathname,
+      });
+    } catch {
+      // Silently handle One-Tap errors (user dismissed, FedCM errors, etc.)
+    }
+  }
+
+  // Delay One-Tap to avoid competing with page load
+  if (document.readyState === 'complete') {
+    setTimeout(initOneTap, 1000);
+  } else {
+    window.addEventListener('load', () => setTimeout(initOneTap, 1000));
+  }
+</script>
